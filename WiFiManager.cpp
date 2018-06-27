@@ -12,6 +12,9 @@
 
 #include "WiFiManager.h"
 
+//include the LED Display!
+#include "LED_Display_Wrapper.h"
+
 WiFiManagerParameter::WiFiManagerParameter(const char *custom) {
   _id = NULL;
   _placeholder = NULL;
@@ -61,6 +64,7 @@ const char* WiFiManagerParameter::getCustomHTML() {
 }
 
 WiFiManager::WiFiManager() {
+  LEDdisplay = LED_Display_Wrapper(); 
 }
 
 void WiFiManager::addParameter(WiFiManagerParameter *p) {
@@ -132,6 +136,28 @@ void WiFiManager::setupConfigPortal() {
   server->onNotFound (std::bind(&WiFiManager::handleNotFound, this));
   server->begin(); // Web server start
   DEBUG_WM(F("HTTP server started"));
+
+  // scrolltext is my own function, this should really be added to the display library, and thn this lib can depend on the other?
+  // for today, lets get thsi working...
+  // String tmpString;
+  // tmpString = "Unable to connect to the web - to configure wifi settings connect to MY HOTSPOT -> " +_apName +"      Config address -> http://"+ WiFi.softAPIP()+"/";
+
+  char str[500];
+  // strcpy (str, "Unable to connect to the web - to configure wifi settings connect to MY HOTSPOT -> " );
+  // strcat (str, _apName );
+  // strcat (str, "      Config address -> http://" );
+  // strcat (str,  WiFi.softAPIP() );
+  // strcat (str, "/" );
+  // snprintf(str, 500, "Unable to connect to the web - to configure wifi settings connect to MY HOTSPOT -> %s         Config address -> http:// %u /");
+  // DEBUG_WM(str);
+  // LEDdisplay.ScrollText(str);
+
+   
+  // snprintf(str, 500, "FAILED TO CONNECT TO THE INTERNET        STARTING CONFIG HOTSPOT         HTTP://%s/      ", toStringIp(WiFi.softAPIP()) );
+  // DEBUG_WM(str);
+  // LEDdisplay.ScrollText(str);
+
+  LEDdisplay.ScrollText("FAILED TO CONNECT TO THE INTERNET        STARTING CONFIG HOTSPOT      ");
 
 }
 
@@ -246,6 +272,7 @@ boolean  WiFiManager::startConfigPortal(char const *apName, char const *apPasswo
 
 int WiFiManager::connectWifi(String ssid, String pass) {
   DEBUG_WM(F("Connecting as wifi client..."));
+  LEDdisplay.ScrollText("CONNECTING      ");
 
   // check if we've got static_ip settings, if we do, use those.
   if (_sta_static_ip) {
@@ -582,6 +609,7 @@ void WiFiManager::handleWifi(boolean scan) {
 /** Handle the WLAN save form and redirect to WLAN config page again */
 void WiFiManager::handleWifiSave() {
   DEBUG_WM(F("WiFi save"));
+  LEDdisplay.ScrollText("SAVING      ");
 
   //SAVE/connect here
   _ssid = server->arg("s").c_str();

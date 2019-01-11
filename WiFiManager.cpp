@@ -157,7 +157,7 @@ void WiFiManager::setupConfigPortal() {
   // DEBUG_WM(str);
   // LEDdisplay.ScrollText(str);
 
-  LEDdisplay.ScrollText("FAILED TO CONNECT TO THE INTERNET        STARTING CONFIG HOTSPOT      ");
+  LEDdisplay.ScrollText("FAILED TO GET ONLINE        STARTING HOTSPOT        CONFIGURE ME BY CONNECTING YOUR PHONE TO THE TICKERTAPE WIFI HOTSPOT      ");
 
 }
 

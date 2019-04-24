@@ -50,7 +50,7 @@ const char HTTP_FORM_END[] PROGMEM = "<br/><button type='submit'>save</button></
 const char HTTP_SCAN_LINK[] PROGMEM = "<br/><div class=\"c\"><a href=\"/wifi\">Scan</a></div>";
 const char HTTP_SAVED[] PROGMEM = "<div><div class='tickertape'></div>Credentials Saved<br />Trying to connect to network.<br />If it fails reconnect to AP to try again</div>";
 const char HTTP_END[] PROGMEM = "</div></body></html>";
-
+ 
 #define WIFI_MANAGER_MAX_PARAMS 10
 
 class WiFiManagerParameter
